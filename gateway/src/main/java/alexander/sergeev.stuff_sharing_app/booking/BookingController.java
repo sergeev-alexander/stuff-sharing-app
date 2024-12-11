@@ -21,7 +21,7 @@ import javax.validation.constraints.PositiveOrZero;
 @Validated
 public class BookingController {
 
-    private final BookingClient bookingClient;
+    private final alexander.sergeev.booking.BookingClient bookingClient;
 
     @GetMapping
     public ResponseEntity<Object> getAllUserBookings(

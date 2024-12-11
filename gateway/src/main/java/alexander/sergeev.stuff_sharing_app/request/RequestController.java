@@ -20,7 +20,7 @@ import javax.validation.constraints.PositiveOrZero;
 @RequiredArgsConstructor
 public class RequestController {
 
-    private final RequestClient requestClient;
+    private final alexander.sergeev.request.RequestClient requestClient;
 
     @GetMapping
     public ResponseEntity<Object> getAllRequesterRequests(

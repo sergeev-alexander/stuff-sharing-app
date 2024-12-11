@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Validated
 public class TestController {
 
-    private final TestClient testClient;
+    private final alexander.sergeev.test.TestClient testClient;
 
     @GetMapping
     public ResponseEntity<Object> getTest() {

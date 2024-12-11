@@ -22,7 +22,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class ItemController {
 
-    private final ItemClient itemClient;
+    private final alexander.sergeev.item.ItemClient itemClient;
 
     @GetMapping
     public ResponseEntity<Object> getAllOwnerItems(

@@ -11,12 +11,11 @@
         <relativePath/>
     </parent>
 
+    <name>Stuff-sharing-app</name>
     <groupId>alexander.sergeev</groupId>
     <artifactId>stuff-sharing-app</artifactId>
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
-
-    <name>stuff-sharing-app</name>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

@@ -9,10 +9,9 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
+    <name>Gateway</name>
     <artifactId>gateway</artifactId>
     <version>${project.version}</version>
-
-    <name>Gateway</name>
 
     <dependencies>
 

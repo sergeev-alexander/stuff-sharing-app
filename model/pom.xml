@@ -8,11 +8,9 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
+    <name>Model</name>
     <artifactId>model</artifactId>
     <version>${project.version}</version>
-
-    <name>ShareIt Model</name>
-    <url>http://maven.apache.org</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

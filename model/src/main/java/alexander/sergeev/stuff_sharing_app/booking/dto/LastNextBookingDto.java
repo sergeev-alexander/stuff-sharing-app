@@ -1,0 +1,16 @@
+package alexander.sergeev.stuff_sharing_app.booking.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class LastNextBookingDto {
+
+    private Long id;
+
+    private Long bookerId;
+
+}

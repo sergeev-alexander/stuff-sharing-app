@@ -1,5 +1,8 @@
-package alexander.sergeev.item;
+package alexander.sergeev.stuff_sharing_app.item;
 
+import alexander.sergeev.stuff_sharing_app.client.BaseClient;
+import alexander.sergeev.stuff_sharing_app.comment.dto.IncomingCommentDto;
+import alexander.sergeev.stuff_sharing_app.item.dto.IncomingItemDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -13,16 +16,15 @@ import java.util.Map;
 
 @Service
 public class ItemClient extends BaseClient {
+
     private static final String API_PREFIX = "/items";
 
     @Autowired
-    public ItemClient(@Value("${shareit-server.url}") String serverUrl, RestTemplateBuilder builder) {
-        super(
-                builder
-                        .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX))
-                        .requestFactory(HttpComponentsClientHttpRequestFactory::new)
-                        .build()
-        );
+    public ItemClient(@Value("${stuff_sharing_app_server_url}") String serverUrl, RestTemplateBuilder builder) {
+        super(builder
+                .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX))
+                .requestFactory(HttpComponentsClientHttpRequestFactory::new)
+                .build());
     }
 
     public ResponseEntity<Object> getAllOwnerItems(Long ownerId, Integer from, Integer size) {
@@ -54,5 +56,4 @@ public class ItemClient extends BaseClient {
     public ResponseEntity<Object> deleteItemById(Long ownerId, Long itemId) {
         return delete("/" + itemId, ownerId);
     }
-
 }

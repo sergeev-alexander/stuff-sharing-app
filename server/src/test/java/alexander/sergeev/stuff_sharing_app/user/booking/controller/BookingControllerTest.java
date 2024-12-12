@@ -1,5 +1,14 @@
 package alexander.sergeev.stuff_sharing_app.user.booking.controller;
 
+import alexander.sergeev.stuff_sharing_app.booking.controller.BookingController;
+import alexander.sergeev.stuff_sharing_app.booking.dto.IncomingBookingDto;
+import alexander.sergeev.stuff_sharing_app.booking.dto.OutgoingBookingDto;
+import alexander.sergeev.stuff_sharing_app.booking.model.BookingState;
+import alexander.sergeev.stuff_sharing_app.booking.model.BookingStatus;
+import alexander.sergeev.stuff_sharing_app.booking.service.BookingService;
+import alexander.sergeev.stuff_sharing_app.exception.ExceptionResolver;
+import alexander.sergeev.stuff_sharing_app.item.model.Item;
+import alexander.sergeev.stuff_sharing_app.user.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -15,6 +24,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static alexander.sergeev.stuff_sharing_app.http.HttpHeader.header;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -32,7 +42,9 @@ class BookingControllerTest {
 
     @MockBean
     private BookingService bookingService;
+
     private final Sort sortByStartDesc = Sort.by(Sort.Direction.DESC, "start");
+
     private final OutgoingBookingDto outgoingBookingDto = new OutgoingBookingDto(
             1L,
             LocalDateTime.now().minusDays(1),
@@ -125,5 +137,4 @@ class BookingControllerTest {
                 .andExpect(content().string(objectMapper.writeValueAsString(outgoingBookingDto)));
         verify(bookingService).patchBookingById(1L, 1L, true);
     }
-
 }

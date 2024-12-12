@@ -1,5 +1,6 @@
 package alexander.sergeev.stuff_sharing_app.user.service;
 
+import alexander.sergeev.stuff_sharing_app.user.dto.UserDto;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

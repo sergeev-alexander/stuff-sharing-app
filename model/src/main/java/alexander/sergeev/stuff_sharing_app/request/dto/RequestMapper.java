@@ -1,5 +1,6 @@
 package alexander.sergeev.stuff_sharing_app.request.dto;
 
+import alexander.sergeev.stuff_sharing_app.request.model.Request;
 import lombok.experimental.UtilityClass;
 
 import java.time.LocalDateTime;

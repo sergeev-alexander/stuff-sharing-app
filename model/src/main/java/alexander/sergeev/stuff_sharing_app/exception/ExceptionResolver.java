@@ -68,5 +68,4 @@ public class ExceptionResolver {
         return new ResponseEntity<>(e.getClass().getSimpleName() + " : " + e.getMessage(),
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
 }

@@ -1,5 +1,17 @@
 package alexander.sergeev.stuff_sharing_app.user.request.service;
 
+import alexander.sergeev.stuff_sharing_app.item.dto.ItemMapper;
+import alexander.sergeev.stuff_sharing_app.item.dto.OutgoingItemDto;
+import alexander.sergeev.stuff_sharing_app.item.repository.ItemRepository;
+import alexander.sergeev.stuff_sharing_app.item.model.Item;
+import alexander.sergeev.stuff_sharing_app.request.dto.IncomingRequestDto;
+import alexander.sergeev.stuff_sharing_app.request.dto.OutgoingRequestDto;
+import alexander.sergeev.stuff_sharing_app.request.dto.RequestMapper;
+import alexander.sergeev.stuff_sharing_app.request.model.Request;
+import alexander.sergeev.stuff_sharing_app.request.repository.RequestRepository;
+import alexander.sergeev.stuff_sharing_app.request.service.RequestServiceImpl;
+import alexander.sergeev.stuff_sharing_app.user.model.User;
+import alexander.sergeev.stuff_sharing_app.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -33,19 +45,23 @@ class RequestServiceImplTest {
     private ItemRepository itemRepository;
 
     private final Pageable pageable = PageRequest.of(0, 20, Sort.by(Sort.Direction.DESC, "created"));
+
     private final User owner = new User(
             1L,
             "Owner name",
             "owner@email.com");
+
     private final User requester = new User(
             2L,
             "Requester name",
             "requester@email.com");
+
     private final Request request = new Request(
             1L,
             "Request description",
             LocalDateTime.of(2000, 1, 1, 1, 1, 1),
             requester);
+
     private final Item item = new Item(
             1L,
             "Item name",
@@ -53,6 +69,7 @@ class RequestServiceImplTest {
             true,
             request,
             owner);
+
     private final IncomingRequestDto incomingRequestDto = new IncomingRequestDto(
             null,
             "Request description");
@@ -119,5 +136,4 @@ class RequestServiceImplTest {
         verify(userRepository).getUserById(2L);
         verify(requestRepository).save(any(Request.class));
     }
-
 }

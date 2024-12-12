@@ -1,5 +1,7 @@
 package alexander.sergeev.stuff_sharing_app.validation;
 
+import alexander.sergeev.stuff_sharing_app.booking.dto.IncomingBookingDto;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.time.LocalDateTime;
@@ -47,5 +49,4 @@ public class BookingDateTimeValidator implements ConstraintValidator<BookingDate
         }
         return true;
     }
-
 }

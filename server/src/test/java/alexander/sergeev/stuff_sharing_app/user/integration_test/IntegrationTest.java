@@ -1,5 +1,26 @@
 package alexander.sergeev.stuff_sharing_app.user.integration_test;
 
+import alexander.sergeev.stuff_sharing_app.booking.dto.IncomingBookingDto;
+import alexander.sergeev.stuff_sharing_app.booking.dto.LastNextBookingDto;
+import alexander.sergeev.stuff_sharing_app.booking.dto.OutgoingBookingDto;
+import alexander.sergeev.stuff_sharing_app.booking.model.BookingState;
+import alexander.sergeev.stuff_sharing_app.booking.model.BookingStatus;
+import alexander.sergeev.stuff_sharing_app.booking.service.BookingService;
+import alexander.sergeev.stuff_sharing_app.comment.dto.IncomingCommentDto;
+import alexander.sergeev.stuff_sharing_app.comment.dto.OutgoingCommentDto;
+import alexander.sergeev.stuff_sharing_app.comment.model.Comment;
+import alexander.sergeev.stuff_sharing_app.exception.NotFoundException;
+import alexander.sergeev.stuff_sharing_app.item.dto.IncomingItemDto;
+import alexander.sergeev.stuff_sharing_app.item.dto.OutgoingItemDto;
+import alexander.sergeev.stuff_sharing_app.item.model.Item;
+import alexander.sergeev.stuff_sharing_app.item.service.ItemService;
+import alexander.sergeev.stuff_sharing_app.request.dto.OutgoingRequestDto;
+import alexander.sergeev.stuff_sharing_app.request.model.Request;
+import alexander.sergeev.stuff_sharing_app.request.service.RequestService;
+import alexander.sergeev.stuff_sharing_app.user.dto.UserDto;
+import alexander.sergeev.stuff_sharing_app.user.model.User;
+import alexander.sergeev.stuff_sharing_app.user.service.UserService;
+import alexander.sergeev.stuff_sharing_app.request.dto.IncomingRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,24 +53,31 @@ public class IntegrationTest {
 
     @Autowired
     private BookingService bookingService;
+
     private final Pageable pageable = PageRequest.of(0, 20);
+
     private final LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS).minusHours(1);
+
     private final User owner = new User(
             1L,
             "Owner name",
             "owner@email.com");
+
     private final UserDto ownerDto = new UserDto(
             null,
             "Owner name",
             "owner@email.com");
+
     private final User booker = new User(
             2L,
             "Booker name",
             "booker@email.com");
+
     private final UserDto bookerDto = new UserDto(
             null,
             "Booker name",
             "booker@email.com");
+
     private final Item item = new Item(
             1L,
             "Item Name",
@@ -57,11 +85,13 @@ public class IntegrationTest {
             true,
             null,
             owner);
+
     private final IncomingItemDto incomingItemDto = new IncomingItemDto(
             "Item Name",
             "Item description",
             true,
             1L);
+
     private final OutgoingItemDto outgoingItemDto = new OutgoingItemDto(
             1L,
             "Item Name",
@@ -71,25 +101,30 @@ public class IntegrationTest {
             null,
             List.of(),
             1L);
+
     private final Request request = new Request(
             1L,
             "Request description",
             null,
             booker);
+
     private final IncomingRequestDto incomingRequestDto = new IncomingRequestDto(
             null,
             "Request description");
+
     private final OutgoingRequestDto outgoingRequestDto = new OutgoingRequestDto(
             1L,
             "Request description",
             null,
             2L,
             List.of(outgoingItemDto));
+
     private final IncomingBookingDto incomingBookingDtoLast = new IncomingBookingDto(
             null,
             now.minusDays(3),
             now.minusDays(2),
             1L);
+
     private final OutgoingBookingDto outgoingBookingDtoLast = new OutgoingBookingDto(
             1L,
             now.minusDays(3),
@@ -97,11 +132,13 @@ public class IntegrationTest {
             booker,
             item,
             BookingStatus.APPROVED);
+
     private final IncomingBookingDto incomingBookingDtoCurrent = new IncomingBookingDto(
             null,
             now.minusDays(1),
             now.plusDays(1),
             1L);
+
     private final OutgoingBookingDto outgoingBookingDtoCurrent = new OutgoingBookingDto(
             2L,
             now.minusDays(1),
@@ -109,14 +146,17 @@ public class IntegrationTest {
             booker,
             item,
             BookingStatus.APPROVED);
+
     private final LastNextBookingDto lastNextBookingDtoLast = new LastNextBookingDto(
             2L,
             2L);
+
     private final IncomingBookingDto incomingBookingDtoNext = new IncomingBookingDto(
             null,
             now.plusDays(2),
             now.plusDays(3),
             1L);
+
     private final OutgoingBookingDto outgoingBookingDtoNext = new OutgoingBookingDto(
             3L,
             now.plusDays(2),
@@ -124,18 +164,22 @@ public class IntegrationTest {
             booker,
             item,
             BookingStatus.WAITING);
+
     private final LastNextBookingDto lastNextBookingDtoNext = new LastNextBookingDto(
             3L,
             2L);
+
     private final Comment comment = new Comment(
             1L,
             "Comment text",
             item,
             booker,
             null);
+
     private final IncomingCommentDto incomingCommentDto = new IncomingCommentDto(
             null,
             "Comment text");
+
     private final OutgoingCommentDto outgoingCommentDto = new OutgoingCommentDto(
             1L,
             "Comment text",
@@ -185,19 +229,17 @@ public class IntegrationTest {
 
     @Test
     void getUserById() {
-        UserDto expected = ownerDto;
         UserDto result = userService.getUserById(1L);
-        assertEquals(expected, result);
+        assertEquals(ownerDto, result);
     }
 
     @Test
     void patchUserById() {
         ownerDto.setName("Updated name");
         ownerDto.setEmail("updated@email.com");
-        UserDto expected = ownerDto;
         userService.patchUserById(1L, ownerDto);
         UserDto result = userService.getUserById(1L);
-        assertEquals(expected, result);
+        assertEquals(ownerDto, result);
     }
 
     @Test
@@ -221,9 +263,8 @@ public class IntegrationTest {
 
     @Test
     void getItemDtoById() {
-        OutgoingItemDto expected = outgoingItemDto;
         OutgoingItemDto result = itemService.getItemDtoById(1L, 1L);
-        assertEquals(expected, result);
+        assertEquals(outgoingItemDto, result);
     }
 
     @Test
@@ -246,9 +287,8 @@ public class IntegrationTest {
         outgoingItemDto.setLastBooking(null);
         outgoingItemDto.setNextBooking(null);
         outgoingItemDto.setComments(List.of());
-        OutgoingItemDto expected = outgoingItemDto;
         OutgoingItemDto result = itemService.patchItemById(1L, 1L, incomingItemDto);
-        assertEquals(expected, result);
+        assertEquals(outgoingItemDto, result);
     }
 
     @Test
@@ -296,9 +336,8 @@ public class IntegrationTest {
         outgoingItemDto.setLastBooking(null);
         outgoingItemDto.setNextBooking(null);
         outgoingItemDto.setComments(List.of());
-        OutgoingRequestDto expected = outgoingRequestDto;
         OutgoingRequestDto result = requestService.getRequestById(1L, 1L);
-        assertEquals(expected, result);
+        assertEquals(outgoingRequestDto, result);
     }
 
     /*
@@ -413,9 +452,7 @@ public class IntegrationTest {
 
     @Test
     void getBookingById() {
-        OutgoingBookingDto expected = outgoingBookingDtoLast;
         OutgoingBookingDto result = bookingService.getBookingById(2L, 1L);
-        assertEquals(expected, result);
+        assertEquals(outgoingBookingDtoLast, result);
     }
-
 }

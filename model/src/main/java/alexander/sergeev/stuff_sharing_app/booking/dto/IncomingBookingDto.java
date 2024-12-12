@@ -1,5 +1,7 @@
 package alexander.sergeev.stuff_sharing_app.booking.dto;
 
+import alexander.sergeev.stuff_sharing_app.validation.BookingDateTimeValidation;
+import alexander.sergeev.stuff_sharing_app.validation.ValidationMarker;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

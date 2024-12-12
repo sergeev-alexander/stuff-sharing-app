@@ -1,5 +1,14 @@
 package alexander.sergeev.stuff_sharing_app.request.service;
 
+import alexander.sergeev.stuff_sharing_app.item.dto.ItemMapper;
+import alexander.sergeev.stuff_sharing_app.item.dto.OutgoingItemDto;
+import alexander.sergeev.stuff_sharing_app.item.repository.ItemRepository;
+import alexander.sergeev.stuff_sharing_app.request.dto.IncomingRequestDto;
+import alexander.sergeev.stuff_sharing_app.request.dto.OutgoingRequestDto;
+import alexander.sergeev.stuff_sharing_app.request.dto.RequestMapper;
+import alexander.sergeev.stuff_sharing_app.request.model.Request;
+import alexander.sergeev.stuff_sharing_app.request.repository.RequestRepository;
+import alexander.sergeev.stuff_sharing_app.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,7 +26,9 @@ import static java.util.stream.Collectors.toList;
 public class RequestServiceImpl implements RequestService {
 
     private final UserRepository userRepository;
+
     private final ItemRepository itemRepository;
+
     private final RequestRepository requestRepository;
 
     @Override
@@ -69,5 +80,4 @@ public class RequestServiceImpl implements RequestService {
                         .getOrDefault(outgoingRequestDto.getId(), List.of())))
                 .collect(toList());
     }
-
 }

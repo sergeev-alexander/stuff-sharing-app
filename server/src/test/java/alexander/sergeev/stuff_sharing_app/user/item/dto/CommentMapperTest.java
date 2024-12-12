@@ -1,8 +1,15 @@
 package alexander.sergeev.stuff_sharing_app.user.item.dto;
 
+import alexander.sergeev.stuff_sharing_app.comment.dto.CommentMapper;
+import alexander.sergeev.stuff_sharing_app.comment.dto.IncomingCommentDto;
+import alexander.sergeev.stuff_sharing_app.comment.dto.OutgoingCommentDto;
+import alexander.sergeev.stuff_sharing_app.comment.model.Comment;
+import alexander.sergeev.stuff_sharing_app.user.model.User;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CommentMapperTest {
 
@@ -32,5 +39,4 @@ class CommentMapperTest {
         Comment result = CommentMapper.mapIncommingDtoToComment(incomingCommentDto);
         assertEquals(incomingCommentDto.getText(), result.getText());
     }
-
 }

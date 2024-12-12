@@ -1,5 +1,7 @@
 package alexander.sergeev.stuff_sharing_app.booking.repository;
 
+import alexander.sergeev.stuff_sharing_app.booking.model.Booking;
+import alexander.sergeev.stuff_sharing_app.booking.model.BookingStatus;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;

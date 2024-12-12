@@ -1,5 +1,8 @@
 package alexander.sergeev.stuff_sharing_app.request.controller;
 
+import alexander.sergeev.stuff_sharing_app.request.dto.IncomingRequestDto;
+import alexander.sergeev.stuff_sharing_app.request.dto.OutgoingRequestDto;
+import alexander.sergeev.stuff_sharing_app.request.service.RequestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -10,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 
+import static alexander.sergeev.stuff_sharing_app.http.HttpHeader.header;
+
 @Slf4j
 @RestController
 @RequestMapping("/requests")
@@ -18,6 +23,7 @@ import java.util.Collection;
 public class RequestController {
 
     private final Sort sortByCreatingDesc = Sort.by(Sort.Direction.DESC, "created");
+
     private final RequestService requestService;
 
     @GetMapping
@@ -58,5 +64,4 @@ public class RequestController {
         log.info("Id-{} {} {} {}", requesterId, request.getMethod(), request.getRequestURI(), incomingRequestDto);
         return requestService.postRequest(requesterId, incomingRequestDto);
     }
-
 }

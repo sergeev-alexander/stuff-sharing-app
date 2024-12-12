@@ -1,5 +1,10 @@
 package alexander.sergeev.stuff_sharing_app.item.controller;
 
+import alexander.sergeev.stuff_sharing_app.comment.dto.IncomingCommentDto;
+import alexander.sergeev.stuff_sharing_app.comment.dto.OutgoingCommentDto;
+import alexander.sergeev.stuff_sharing_app.item.dto.IncomingItemDto;
+import alexander.sergeev.stuff_sharing_app.item.dto.OutgoingItemDto;
+import alexander.sergeev.stuff_sharing_app.item.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -9,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 
-import static ru.practicum.shareit.http.HttpHeader.header;
+import static alexander.sergeev.stuff_sharing_app.http.HttpHeader.header;
 
 @Slf4j
 @RestController
@@ -18,6 +23,7 @@ import static ru.practicum.shareit.http.HttpHeader.header;
 public class ItemController {
 
     private final Sort sortByStartDesc = Sort.by(Sort.Direction.DESC, "start");
+
     private final ItemService itemService;
 
     @GetMapping
@@ -87,5 +93,4 @@ public class ItemController {
         log.info("Id-{} {} {}", ownerId, request.getMethod(), request.getRequestURI());
         return itemService.deleteItemById(ownerId, itemId);
     }
-
 }

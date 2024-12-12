@@ -1,5 +1,6 @@
 package alexander.sergeev.stuff_sharing_app.comment.dto;
 
+import alexander.sergeev.stuff_sharing_app.validation.ValidationMarker;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;

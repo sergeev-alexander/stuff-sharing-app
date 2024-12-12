@@ -1,5 +1,10 @@
 package alexander.sergeev.stuff_sharing_app.item;
 
+import alexander.sergeev.stuff_sharing_app.comment.dto.IncomingCommentDto;
+import alexander.sergeev.stuff_sharing_app.comment.dto.OutgoingCommentDto;
+import alexander.sergeev.stuff_sharing_app.exception.ExceptionResolver;
+import alexander.sergeev.stuff_sharing_app.item.dto.IncomingItemDto;
+import alexander.sergeev.stuff_sharing_app.item.dto.OutgoingItemDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -19,9 +24,9 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static alexander.sergeev.stuff_sharing_app.http.HttpHeader.header;
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -38,6 +43,7 @@ class ItemControllerTest {
 
     @MockBean
     private ItemClient itemClient;
+
     private final Sort sortByStartAsc = Sort.by(Sort.Direction.ASC, "start");
 
     @Test
@@ -67,8 +73,8 @@ class ItemControllerTest {
         mockMvc.perform(get("/items?from=-1&size=0")
                         .header(header, 1))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException()
-                        instanceof ConstraintViolationException))
+                .andExpect(result ->
+                        assertInstanceOf(ConstraintViolationException.class, result.getResolvedException()))
                 .andExpect(result -> assertTrue(result
                         .getResolvedException().getMessage()
                         .contains("getAllOwnerItems.size: must be greater than or equal to 1")))
@@ -85,9 +91,8 @@ class ItemControllerTest {
         mockMvc.perform(get("/items?from=0&size=1")
                         .header("WRONG-HEADER", "WRONG-VALUE"))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(
-                        result.getResolvedException()
-                                instanceof MissingRequestHeaderException))
+                .andExpect(result ->
+                        assertInstanceOf(MissingRequestHeaderException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals("Required request header 'X-Sharer-User-Id' " +
                                 "for method parameter type Long is not present",
                         result.getResolvedException().getMessage()))
@@ -124,9 +129,8 @@ class ItemControllerTest {
         mockMvc.perform(get("/items/{id}", 1)
                         .header("WRONG-HEADER", "WRONG-VALUE"))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(
-                        result.getResolvedException()
-                                instanceof MissingRequestHeaderException))
+                .andExpect(result ->
+                        assertInstanceOf(MissingRequestHeaderException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals("Required request header 'X-Sharer-User-Id' " +
                                 "for method parameter type Long is not present",
                         result.getResolvedException().getMessage()))
@@ -142,8 +146,8 @@ class ItemControllerTest {
         mockMvc.perform(get("/items/{id}", -1)
                         .header(header, 1))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException()
-                        instanceof ConstraintViolationException))
+                .andExpect(result ->
+                        assertInstanceOf(ConstraintViolationException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals("getItemById.itemId: must be greater than 0",
                         result.getResolvedException().getMessage()))
                 .andExpect(content().string("{\"error\":\"must be greater than 0\"}"));
@@ -177,8 +181,8 @@ class ItemControllerTest {
         mockMvc.perform(get("/items/search?text=SomeText")
                         .header(header, -1))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException()
-                        instanceof ConstraintViolationException))
+                .andExpect(result ->
+                        assertInstanceOf(ConstraintViolationException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals("getItemsBySearch.userId: must be greater than 0",
                         result.getResolvedException().getMessage()))
                 .andExpect(content().string("{\"error\":\"must be greater than 0\"}"));
@@ -228,8 +232,8 @@ class ItemControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(incomingItemDto)))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(
-                        result.getResolvedException() instanceof MissingRequestHeaderException))
+                .andExpect(result ->
+                        assertInstanceOf(MissingRequestHeaderException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals("Required request header 'X-Sharer-User-Id' " +
                                 "for method parameter type Long is not present",
                         result.getResolvedException().getMessage()))
@@ -253,8 +257,8 @@ class ItemControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(incomingItemDto)))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(
-                        result.getResolvedException() instanceof MethodArgumentNotValidException))
+                .andExpect(result ->
+                        assertInstanceOf(MethodArgumentNotValidException.class, result.getResolvedException()))
                 .andExpect(content().string(containsString("requestId\":\"" +
                         "Creating item requestId field must be positive!")))
                 .andExpect(content().string(containsString("name\":\"" +
@@ -322,7 +326,8 @@ class ItemControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(incomingCommentDto)))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
+                .andExpect(result ->
+                        assertInstanceOf(ConstraintViolationException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals("postComment.itemId: must be greater than 0",
                         result.getResolvedException().getMessage()))
                 .andExpect(content().string("{\"error\":\"must be greater than 0\"}"));
@@ -374,8 +379,8 @@ class ItemControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(incomingItemDto)))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(
-                        result.getResolvedException() instanceof MethodArgumentNotValidException))
+                .andExpect(result ->
+                        assertInstanceOf(MethodArgumentNotValidException.class, result.getResolvedException()))
                 .andExpect(content().string(containsString("name\":\"" +
                         "Creating item name field is bigger than 128 characters!")))
                 .andExpect(content().string(containsString("description\":\"" +
@@ -397,8 +402,8 @@ class ItemControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(incomingItemDto)))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(
-                        result.getResolvedException() instanceof ConstraintViolationException))
+                .andExpect(result ->
+                        assertInstanceOf(ConstraintViolationException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals("patchItemById.ownerId: must be greater than 0",
                         result.getResolvedException().getMessage()))
                 .andExpect(content().string("{\"error\":\"must be greater than 0\"}"));
@@ -421,8 +426,8 @@ class ItemControllerTest {
         mockMvc.perform(delete("/items/{id}", -1)
                         .header(header, 1))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(
-                        result.getResolvedException() instanceof ConstraintViolationException))
+                .andExpect(result ->
+                        assertInstanceOf(ConstraintViolationException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals("deleteItemById.itemId: must be greater than 0",
                         result.getResolvedException().getMessage()))
                 .andExpect(content().string("{\"error\":\"must be greater than 0\"}"));

@@ -1,5 +1,7 @@
 package alexander.sergeev.stuff_sharing_app.user.controller;
 
+import alexander.sergeev.stuff_sharing_app.user.dto.UserDto;
+import alexander.sergeev.stuff_sharing_app.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -59,5 +61,4 @@ public class UserController {
         log.info("{} {}", request.getMethod(), request.getRequestURI());
         return userService.deleteUserById(userId);
     }
-
 }

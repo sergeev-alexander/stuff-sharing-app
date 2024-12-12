@@ -1,5 +1,6 @@
 package alexander.sergeev.stuff_sharing_app.item.dto;
 
+import alexander.sergeev.stuff_sharing_app.validation.ValidationMarker;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

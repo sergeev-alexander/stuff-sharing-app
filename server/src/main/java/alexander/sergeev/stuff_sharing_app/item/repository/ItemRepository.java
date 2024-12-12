@@ -1,5 +1,7 @@
 package alexander.sergeev.stuff_sharing_app.item.repository;
 
+import alexander.sergeev.stuff_sharing_app.exception.NotFoundException;
+import alexander.sergeev.stuff_sharing_app.item.model.Item;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -35,5 +37,4 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     default Item getItemById(Long itemId) {
         return findById(itemId).orElseThrow(() -> new NotFoundException("There's no item with id " + itemId));
     }
-
 }

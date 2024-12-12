@@ -1,8 +1,18 @@
 package alexander.sergeev.stuff_sharing_app.user.booking.dto;
 
+import alexander.sergeev.stuff_sharing_app.booking.dto.BookingMapper;
+import alexander.sergeev.stuff_sharing_app.booking.dto.IncomingBookingDto;
+import alexander.sergeev.stuff_sharing_app.booking.dto.LastNextBookingDto;
+import alexander.sergeev.stuff_sharing_app.booking.dto.OutgoingBookingDto;
+import alexander.sergeev.stuff_sharing_app.booking.model.Booking;
+import alexander.sergeev.stuff_sharing_app.booking.model.BookingStatus;
+import alexander.sergeev.stuff_sharing_app.item.model.Item;
+import alexander.sergeev.stuff_sharing_app.user.model.User;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BookingMapperTest {
 
@@ -66,5 +76,4 @@ class BookingMapperTest {
         assertEquals(booking.getId(), result.getId());
         assertEquals(booking.getBooker().getId(), result.getBookerId());
     }
-
 }

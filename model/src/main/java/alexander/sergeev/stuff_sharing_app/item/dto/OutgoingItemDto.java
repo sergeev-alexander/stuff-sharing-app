@@ -1,5 +1,7 @@
 package alexander.sergeev.stuff_sharing_app.item.dto;
 
+import alexander.sergeev.stuff_sharing_app.booking.dto.LastNextBookingDto;
+import alexander.sergeev.stuff_sharing_app.comment.dto.OutgoingCommentDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

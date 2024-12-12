@@ -1,4 +1,4 @@
-package alexander.sergeev.client;
+package alexander.sergeev.stuff_sharing_app.client;
 
 import org.springframework.http.*;
 import org.springframework.lang.Nullable;
@@ -8,7 +8,10 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 import java.util.Map;
 
+import static alexander.sergeev.stuff_sharing_app.http.HttpHeader.header;
+
 public class BaseClient {
+
     protected final RestTemplate rest;
 
     public BaseClient(RestTemplate rest) {

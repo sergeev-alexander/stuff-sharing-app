@@ -1,5 +1,8 @@
 package alexander.sergeev.stuff_sharing_app.user;
 
+import alexander.sergeev.stuff_sharing_app.exception.ExceptionResolver;
+import alexander.sergeev.stuff_sharing_app.user.controller.UserController;
+import alexander.sergeev.stuff_sharing_app.user.dto.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -11,16 +14,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import ru.practicum.shareit.exeption.ExceptionResolver;
-import ru.practicum.shareit.user.dto.UserDto;
 
 import javax.validation.ConstraintViolationException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -58,8 +58,8 @@ class UserControllerTest {
     void getAllUsers_whenNegativeFromAndNegativeSize_shouldNotInvokeUserServiceMethod_andThrowConstraintViolationException() {
         mockMvc.perform(get("/users?from=-1"))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException()
-                        instanceof ConstraintViolationException))
+                .andExpect(result ->
+                        assertInstanceOf(ConstraintViolationException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals("getAllUsers.from: " +
                                 "must be greater than or equal to 0",
                         result.getResolvedException().getMessage()))
@@ -72,8 +72,8 @@ class UserControllerTest {
     void getAllUsers_whenLessThan1Size_shouldNotInvokeUserServiceMethod_andThrowConstraintViolationException() {
         mockMvc.perform(get("/users?size=-1"))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException()
-                        instanceof ConstraintViolationException))
+                .andExpect(result ->
+                        assertInstanceOf(ConstraintViolationException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals("getAllUsers.size: " +
                                 "must be greater than or equal to 1",
                         result.getResolvedException().getMessage()))
@@ -86,8 +86,8 @@ class UserControllerTest {
     void getAllUsers_whenGreaterThen20Size_shouldNotInvokeUserServiceMethod_andThrowConstraintViolationException() {
         mockMvc.perform(get("/users?size=21"))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException()
-                        instanceof ConstraintViolationException))
+                .andExpect(result ->
+                        assertInstanceOf(ConstraintViolationException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals("getAllUsers.size: " +
                                 "must be less than or equal to 20",
                         result.getResolvedException().getMessage()))
@@ -115,8 +115,8 @@ class UserControllerTest {
     void getUserById_whenNegativeId_shouldNotInvokeUserServiceMethod_andThrowConstraintViolationException() {
         mockMvc.perform(get("/users/{id}", -1))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException()
-                        instanceof ConstraintViolationException))
+                .andExpect(result ->
+                        assertInstanceOf(ConstraintViolationException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals("getUserById.userId: " +
                                 "must be greater than 0",
                         result.getResolvedException().getMessage()))
@@ -153,8 +153,8 @@ class UserControllerTest {
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException()
-                        instanceof MethodArgumentNotValidException))
+                .andExpect(result ->
+                        assertInstanceOf(MethodArgumentNotValidException.class, result.getResolvedException()))
                 .andExpect(content().string(containsString("\"name\":\"User name field is blank!" +
                         "\",\"id\":\"Creating user already has an id!\",\"email\":\"Wrong email format!\"")));
         verifyNoInteractions(userClient);
@@ -190,8 +190,8 @@ class UserControllerTest {
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException()
-                        instanceof ConstraintViolationException))
+                .andExpect(result ->
+                        assertInstanceOf(ConstraintViolationException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals("patchUserById.userId: " +
                                 "must be greater than 0",
                         result.getResolvedException().getMessage()))
@@ -211,8 +211,8 @@ class UserControllerTest {
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException()
-                        instanceof MethodArgumentNotValidException))
+                .andExpect(result ->
+                        assertInstanceOf(MethodArgumentNotValidException.class, result.getResolvedException()))
                 .andExpect(content().string("{\"email\":\"Wrong email format!\"}"));
         verifyNoInteractions(userClient);
     }
@@ -230,8 +230,8 @@ class UserControllerTest {
     void deleteUserById_whenNegativeUserId_shouldNotInvokeUserServiceMethod_andThrowConstraintViolationException() {
         mockMvc.perform(delete("/users/{id}", -1))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException()
-                        instanceof ConstraintViolationException))
+                .andExpect(result ->
+                        assertInstanceOf(ConstraintViolationException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals("deleteUserById.userId: " +
                                 "must be greater than 0",
                         result.getResolvedException().getMessage()))

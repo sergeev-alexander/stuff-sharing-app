@@ -1,5 +1,18 @@
 package alexander.sergeev.stuff_sharing_app.booking.service;
 
+import alexander.sergeev.stuff_sharing_app.booking.dto.BookingMapper;
+import alexander.sergeev.stuff_sharing_app.booking.dto.IncomingBookingDto;
+import alexander.sergeev.stuff_sharing_app.booking.dto.OutgoingBookingDto;
+import alexander.sergeev.stuff_sharing_app.booking.model.Booking;
+import alexander.sergeev.stuff_sharing_app.booking.model.BookingState;
+import alexander.sergeev.stuff_sharing_app.booking.model.BookingStatus;
+import alexander.sergeev.stuff_sharing_app.booking.repository.BookingRepository;
+import alexander.sergeev.stuff_sharing_app.exception.NotAvailableItemException;
+import alexander.sergeev.stuff_sharing_app.exception.NotFoundException;
+import alexander.sergeev.stuff_sharing_app.item.model.Item;
+import alexander.sergeev.stuff_sharing_app.item.repository.ItemRepository;
+import alexander.sergeev.stuff_sharing_app.user.model.User;
+import alexander.sergeev.stuff_sharing_app.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,7 +28,9 @@ import java.util.stream.Collectors;
 public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
+
     private final ItemRepository itemRepository;
+
     private final UserRepository userRepository;
 
     @Override
@@ -158,5 +173,4 @@ public class BookingServiceImpl implements BookingService {
         return bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new NotFoundException("There's no booking with id " + bookingId));
     }
-
 }

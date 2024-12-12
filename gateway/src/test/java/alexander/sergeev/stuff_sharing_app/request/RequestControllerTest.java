@@ -1,5 +1,8 @@
 package alexander.sergeev.stuff_sharing_app.request;
 
+import alexander.sergeev.stuff_sharing_app.exception.ExceptionResolver;
+import alexander.sergeev.stuff_sharing_app.request.dto.IncomingRequestDto;
+import alexander.sergeev.stuff_sharing_app.request.dto.OutgoingRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,9 +23,9 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static alexander.sergeev.stuff_sharing_app.http.HttpHeader.header;
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -40,7 +43,9 @@ class RequestControllerTest {
 
     @MockBean
     private RequestClient requestClient;
+
     private final Sort sortByCreatingDesc = Sort.by(Sort.Direction.DESC, "created");
+
     private OutgoingRequestDto outgoingRequestDto;
 
     @BeforeEach
@@ -71,8 +76,8 @@ class RequestControllerTest {
         mockMvc.perform(get("/requests")
                         .header("WRONG-HEADER", "WRONG-VALUE"))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException()
-                        instanceof MissingRequestHeaderException))
+                .andExpect(result ->
+                        assertInstanceOf(MissingRequestHeaderException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals("Required request header 'X-Sharer-User-Id' " +
                                 "for method parameter type Long is not present",
                         result.getResolvedException().getMessage()))
@@ -88,7 +93,8 @@ class RequestControllerTest {
         mockMvc.perform(get("/requests?from=-1&size=0")
                         .header(header, 1))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
+                .andExpect(result ->
+                        assertInstanceOf(ConstraintViolationException.class, result.getResolvedException()))
                 .andExpect(result -> assertTrue(result
                         .getResolvedException().getMessage()
                         .contains("getAllRequesterRequests.size: must be greater than or equal to 1")))
@@ -117,8 +123,8 @@ class RequestControllerTest {
         mockMvc.perform(get("/requests/all?from=-1&size=0")
                         .header(header, 1))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException()
-                        instanceof ConstraintViolationException))
+                .andExpect(result ->
+                        assertInstanceOf(ConstraintViolationException.class, result.getResolvedException()))
                 .andExpect(result -> assertTrue(result
                         .getResolvedException().getMessage()
                         .contains("getAllRequests.size: must be greater than or equal to 1")))
@@ -134,8 +140,8 @@ class RequestControllerTest {
     void getAllRequests_whenNoRequestHeader_shouldThrowMissingRequestHeaderException() {
         mockMvc.perform(get("/requests/all?from=0&size=1"))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException()
-                        instanceof MissingRequestHeaderException))
+                .andExpect(result ->
+                        assertInstanceOf(MissingRequestHeaderException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals(
                         "Required request header 'X-Sharer-User-Id' " +
                                 "for method parameter type Long is not present",
@@ -164,8 +170,8 @@ class RequestControllerTest {
         mockMvc.perform(get("/requests/{id}", -1)
                         .header(header, 1))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException()
-                        instanceof ConstraintViolationException))
+                .andExpect(result ->
+                        assertInstanceOf(ConstraintViolationException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals("getRequestById.requestId: must be greater than 0",
                         result.getResolvedException().getMessage()))
                 .andExpect(content().string("{\"error\":\"must be greater than 0\"}"));
@@ -202,8 +208,8 @@ class RequestControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(incomingRequestDto)))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(
-                        result.getResolvedException() instanceof MethodArgumentNotValidException))
+                .andExpect(result ->
+                        assertInstanceOf(MethodArgumentNotValidException.class, result.getResolvedException()))
                 .andExpect(content().string(containsString("id\":\"" +
                         "Creating request already has an id!")))
                 .andExpect(content().string(containsString("description\":\"" +
@@ -223,8 +229,8 @@ class RequestControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(incomingRequestDto)))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException()
-                        instanceof MissingRequestHeaderException))
+                .andExpect(result ->
+                        assertInstanceOf(MissingRequestHeaderException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals(
                         "Required request header 'X-Sharer-User-Id' " +
                                 "for method parameter type Long is not present",

@@ -1,5 +1,10 @@
 package alexander.sergeev.stuff_sharing_app.user.request.controller;
 
+import alexander.sergeev.stuff_sharing_app.exception.ExceptionResolver;
+import alexander.sergeev.stuff_sharing_app.request.controller.RequestController;
+import alexander.sergeev.stuff_sharing_app.request.dto.IncomingRequestDto;
+import alexander.sergeev.stuff_sharing_app.request.dto.OutgoingRequestDto;
+import alexander.sergeev.stuff_sharing_app.request.service.RequestService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,13 +21,13 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static alexander.sergeev.stuff_sharing_app.http.HttpHeader.header;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.practicum.shareit.http.HttpHeader.header;
 
 @WebMvcTest({RequestController.class, ExceptionResolver.class})
 class RequestControllerTest {
@@ -35,11 +40,14 @@ class RequestControllerTest {
 
     @MockBean
     private RequestService requestService;
+
     private final Sort sortByCreatingDesc = Sort.by(Sort.Direction.DESC, "created");
+
     private OutgoingRequestDto outgoingRequestDto;
 
     @BeforeEach
     void setOutgoingRequestDto() {
+
         outgoingRequestDto = new OutgoingRequestDto(
                 1L,
                 "Some description",
@@ -103,5 +111,4 @@ class RequestControllerTest {
                 .andExpect(content().string(objectMapper.writeValueAsString(outgoingRequestDto)));
         verify(requestService).postRequest(1L, incomingRequestDto);
     }
-
 }

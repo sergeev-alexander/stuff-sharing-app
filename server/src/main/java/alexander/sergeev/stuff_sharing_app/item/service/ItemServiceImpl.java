@@ -1,5 +1,24 @@
 package alexander.sergeev.stuff_sharing_app.item.service;
 
+import alexander.sergeev.stuff_sharing_app.booking.dto.BookingMapper;
+import alexander.sergeev.stuff_sharing_app.booking.dto.LastNextBookingDto;
+import alexander.sergeev.stuff_sharing_app.booking.model.Booking;
+import alexander.sergeev.stuff_sharing_app.booking.model.BookingStatus;
+import alexander.sergeev.stuff_sharing_app.booking.repository.BookingRepository;
+import alexander.sergeev.stuff_sharing_app.comment.dto.CommentMapper;
+import alexander.sergeev.stuff_sharing_app.comment.dto.IncomingCommentDto;
+import alexander.sergeev.stuff_sharing_app.comment.dto.OutgoingCommentDto;
+import alexander.sergeev.stuff_sharing_app.comment.model.Comment;
+import alexander.sergeev.stuff_sharing_app.exception.NotAvailableItemException;
+import alexander.sergeev.stuff_sharing_app.exception.NotFoundException;
+import alexander.sergeev.stuff_sharing_app.item.dto.IncomingItemDto;
+import alexander.sergeev.stuff_sharing_app.item.dto.ItemMapper;
+import alexander.sergeev.stuff_sharing_app.item.dto.OutgoingItemDto;
+import alexander.sergeev.stuff_sharing_app.item.model.Item;
+import alexander.sergeev.stuff_sharing_app.item.repository.CommentRepository;
+import alexander.sergeev.stuff_sharing_app.item.repository.ItemRepository;
+import alexander.sergeev.stuff_sharing_app.request.repository.RequestRepository;
+import alexander.sergeev.stuff_sharing_app.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,9 +41,13 @@ import static java.util.stream.Collectors.toList;
 public class ItemServiceImpl implements ItemService {
 
     private final ItemRepository itemRepository;
+
     private final UserRepository userRepository;
+
     private final BookingRepository bookingRepository;
+
     private final CommentRepository commentRepository;
+
     private final RequestRepository requestRepository;
 
     @Override
@@ -163,14 +186,14 @@ public class ItemServiceImpl implements ItemService {
         itemRepository.deleteByOwnerId(ownerId);
     }
 
-    protected LastNextBookingDto getNextBookingByItemId(Long itemId) {
+    public LastNextBookingDto getNextBookingByItemId(Long itemId) {
         Booking booking = bookingRepository
                 .findFirstByItemIdAndStartIsAfterAndStatusIs(itemId, LocalDateTime.now(),
                         BookingStatus.APPROVED, Sort.by(Sort.Direction.ASC, "start")).orElse(null);
         return booking == null ? null : BookingMapper.mapBookingToLastNextDto(booking);
     }
 
-    protected LastNextBookingDto getLastBookingByItemId(Long itemId) {
+    public LastNextBookingDto getLastBookingByItemId(Long itemId) {
         Booking booking = bookingRepository
                 .findFirstByItemIdAndStartIsBeforeAndStatusIs(itemId, LocalDateTime.now(),
                         BookingStatus.APPROVED, Sort.by(Sort.Direction.DESC, "end")).orElse(null);
@@ -182,5 +205,4 @@ public class ItemServiceImpl implements ItemService {
                 .map(CommentMapper::mapCommentToOutgoingDto)
                 .collect(toList());
     }
-
 }

@@ -1,8 +1,15 @@
 package alexander.sergeev.stuff_sharing_app.user.request.dto;
 
+import alexander.sergeev.stuff_sharing_app.request.dto.IncomingRequestDto;
+import alexander.sergeev.stuff_sharing_app.request.dto.OutgoingRequestDto;
+import alexander.sergeev.stuff_sharing_app.request.dto.RequestMapper;
+import alexander.sergeev.stuff_sharing_app.request.model.Request;
+import alexander.sergeev.stuff_sharing_app.user.model.User;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class RequestMapperTest {
 
@@ -36,5 +43,4 @@ class RequestMapperTest {
         assertEquals(request.getCreated(), result.getCreated());
         assertEquals(request.getRequester().getId(), result.getRequesterId());
     }
-
 }

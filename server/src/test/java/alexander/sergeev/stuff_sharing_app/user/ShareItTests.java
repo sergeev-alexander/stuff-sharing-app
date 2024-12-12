@@ -9,5 +9,4 @@ class StuffSharingAppTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

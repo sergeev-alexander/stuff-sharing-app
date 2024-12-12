@@ -9,7 +9,7 @@ services:
     depends_on:
       - server
     environment:
-      - SHAREIT_SERVER_URL=http://server:9090
+      - STUFF_SHARING_APP_SERVER_URL=http://server:9090
 #      - TZ=Europe/Moscow
 
   server:
@@ -21,7 +21,7 @@ services:
     depends_on:
       - db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/shareit
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/stuff_sharing_app
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
 #      - TZ=Europe/Moscow
@@ -32,7 +32,7 @@ services:
     ports:
       - "6543:5432"
     environment:
-      - POSTGRES_DB=stuff-sharing-app
+      - POSTGRES_DB=stuff_sharing_app
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
 #      - TZ=Europe/Moscow

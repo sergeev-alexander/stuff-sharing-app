@@ -1,5 +1,7 @@
 package alexander.sergeev.stuff_sharing_app.item.model;
 
+import alexander.sergeev.stuff_sharing_app.request.model.Request;
+import alexander.sergeev.stuff_sharing_app.user.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

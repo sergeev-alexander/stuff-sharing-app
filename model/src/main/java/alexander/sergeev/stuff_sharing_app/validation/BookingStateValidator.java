@@ -1,5 +1,7 @@
 package alexander.sergeev.stuff_sharing_app.validation;
 
+import alexander.sergeev.stuff_sharing_app.booking.model.BookingState;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.Arrays;
@@ -17,5 +19,4 @@ public class BookingStateValidator implements ConstraintValidator<BookingStateVa
         }
         return true;
     }
-
 }

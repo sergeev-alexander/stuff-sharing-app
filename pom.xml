@@ -11,9 +11,9 @@
         <relativePath/>
     </parent>
 
-    <name>Stuff-sharing-app</name>
+    <name>Stuff_sharing_app</name>
     <groupId>alexander.sergeev</groupId>
-    <artifactId>stuff-sharing-app</artifactId>
+    <artifactId>stuff_sharing_app</artifactId>
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
 

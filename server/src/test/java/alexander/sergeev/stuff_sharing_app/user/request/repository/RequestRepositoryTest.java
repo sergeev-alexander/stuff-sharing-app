@@ -1,5 +1,10 @@
 package alexander.sergeev.stuff_sharing_app.user.request.repository;
 
+import alexander.sergeev.stuff_sharing_app.exception.NotFoundException;
+import alexander.sergeev.stuff_sharing_app.request.model.Request;
+import alexander.sergeev.stuff_sharing_app.request.repository.RequestRepository;
+import alexander.sergeev.stuff_sharing_app.user.model.User;
+import alexander.sergeev.stuff_sharing_app.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +29,20 @@ class RequestRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;
+
     private Request request;
+
     private User user;
+
     private final Sort sortByCreatingDesc = Sort.by(Sort.Direction.DESC, "created");
 
     @BeforeEach
     void setUserAndRequest() {
+
         user = new User(null,
                 "Some name",
                 "Some description");
+
         request = new Request(
                 null,
                 "Some description",
@@ -102,5 +112,4 @@ class RequestRepositoryTest {
         assertEquals("There's no request with id 1",
                 notFoundException.getMessage());
     }
-
 }

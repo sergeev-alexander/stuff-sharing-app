@@ -1,5 +1,9 @@
 package alexander.sergeev.stuff_sharing_app.item.service;
 
+import alexander.sergeev.stuff_sharing_app.comment.dto.IncomingCommentDto;
+import alexander.sergeev.stuff_sharing_app.comment.dto.OutgoingCommentDto;
+import alexander.sergeev.stuff_sharing_app.item.dto.IncomingItemDto;
+import alexander.sergeev.stuff_sharing_app.item.dto.OutgoingItemDto;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

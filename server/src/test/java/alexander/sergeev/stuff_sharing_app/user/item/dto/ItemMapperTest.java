@@ -1,6 +1,13 @@
 package alexander.sergeev.stuff_sharing_app.user.item.dto;
 
+import alexander.sergeev.stuff_sharing_app.item.dto.IncomingItemDto;
+import alexander.sergeev.stuff_sharing_app.item.dto.ItemMapper;
+import alexander.sergeev.stuff_sharing_app.item.dto.OutgoingItemDto;
+import alexander.sergeev.stuff_sharing_app.item.model.Item;
+import alexander.sergeev.stuff_sharing_app.request.model.Request;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ItemMapperTest {
 
@@ -37,5 +44,4 @@ class ItemMapperTest {
         assertEquals(incomingItemDto.getDescription(), result.getDescription());
         assertEquals(incomingItemDto.getAvailable(), result.getAvailable());
     }
-
 }

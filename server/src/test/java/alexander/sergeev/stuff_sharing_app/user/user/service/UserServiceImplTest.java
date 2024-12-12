@@ -1,5 +1,11 @@
 package alexander.sergeev.stuff_sharing_app.user.user.service;
 
+import alexander.sergeev.stuff_sharing_app.exception.NotFoundException;
+import alexander.sergeev.stuff_sharing_app.user.dto.UserDto;
+import alexander.sergeev.stuff_sharing_app.user.dto.UserMapper;
+import alexander.sergeev.stuff_sharing_app.user.model.User;
+import alexander.sergeev.stuff_sharing_app.user.repository.UserRepository;
+import alexander.sergeev.stuff_sharing_app.user.service.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -22,10 +28,12 @@ class UserServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
+
     private final UserDto userDto = new UserDto(
             1L,
             "Some name",
             "some@email.com");
+
     private final User user = new User(
             1L,
             "Some name",
@@ -98,5 +106,4 @@ class UserServiceImplTest {
         verify(userRepository).getUserById(1L);
         verify(userRepository).deleteById(1L);
     }
-
 }

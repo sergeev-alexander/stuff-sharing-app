@@ -1,5 +1,8 @@
-package alexander.sergeev.item;
+package alexander.sergeev.stuff_sharing_app.item;
 
+import alexander.sergeev.stuff_sharing_app.comment.dto.IncomingCommentDto;
+import alexander.sergeev.stuff_sharing_app.item.dto.IncomingItemDto;
+import alexander.sergeev.stuff_sharing_app.validation.ValidationMarker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,6 +18,8 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.Collections;
 
+import static alexander.sergeev.stuff_sharing_app.http.HttpHeader.header;
+
 @Slf4j
 @Controller
 @RequestMapping("/items")
@@ -22,7 +27,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class ItemController {
 
-    private final alexander.sergeev.item.ItemClient itemClient;
+    private final ItemClient itemClient;
 
     @GetMapping
     public ResponseEntity<Object> getAllOwnerItems(
@@ -92,6 +97,4 @@ public class ItemController {
         log.info("Id-{} {} {}", ownerId, request.getMethod(), request.getRequestURI());
         return itemClient.deleteItemById(ownerId, itemId);
     }
-
 }
-

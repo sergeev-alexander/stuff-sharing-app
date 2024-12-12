@@ -1,5 +1,7 @@
 package alexander.sergeev.stuff_sharing_app.booking.model;
 
+import alexander.sergeev.stuff_sharing_app.item.model.Item;
+import alexander.sergeev.stuff_sharing_app.user.model.User;
 import lombok.*;
 
 import javax.persistence.*;

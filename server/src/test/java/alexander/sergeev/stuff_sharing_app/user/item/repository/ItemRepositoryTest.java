@@ -1,5 +1,12 @@
 package alexander.sergeev.stuff_sharing_app.user.item.repository;
 
+import alexander.sergeev.stuff_sharing_app.exception.NotFoundException;
+import alexander.sergeev.stuff_sharing_app.item.model.Item;
+import alexander.sergeev.stuff_sharing_app.item.repository.ItemRepository;
+import alexander.sergeev.stuff_sharing_app.request.model.Request;
+import alexander.sergeev.stuff_sharing_app.request.repository.RequestRepository;
+import alexander.sergeev.stuff_sharing_app.user.model.User;
+import alexander.sergeev.stuff_sharing_app.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +35,15 @@ class ItemRepositoryTest {
 
     @Autowired
     RequestRepository requestRepository;
+
     private final Pageable pageable = PageRequest.of(0, 20);
+
     private User owner;
+
     private User requester;
+
     private Request request;
+
     private Item item;
 
     @BeforeEach
@@ -40,15 +52,18 @@ class ItemRepositoryTest {
                 null,
                 "Owner name",
                 "owner@email.com");
+
         requester = new User(
                 null,
                 "Requester name",
                 "requester@email.com");
+
         request = new Request(
                 null,
                 "Request description",
                 LocalDateTime.of(2000, 1, 1, 1, 1, 1),
                 requester);
+
         item = new Item(
                 null,
                 "Item name",
@@ -200,5 +215,4 @@ class ItemRepositoryTest {
                 () -> itemRepository.getItemById(1L));
         assertEquals("There's no item with id 1", notFoundException.getMessage());
     }
-
 }

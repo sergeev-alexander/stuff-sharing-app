@@ -1,5 +1,9 @@
 package alexander.sergeev.stuff_sharing_app.user.user.controller;
 
+import alexander.sergeev.stuff_sharing_app.exception.ExceptionResolver;
+import alexander.sergeev.stuff_sharing_app.user.controller.UserController;
+import alexander.sergeev.stuff_sharing_app.user.dto.UserDto;
+import alexander.sergeev.stuff_sharing_app.user.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -102,5 +106,4 @@ class UserControllerTest {
                 .andExpect(status().isOk());
         verify(userService, times(1)).deleteUserById(1L);
     }
-
 }

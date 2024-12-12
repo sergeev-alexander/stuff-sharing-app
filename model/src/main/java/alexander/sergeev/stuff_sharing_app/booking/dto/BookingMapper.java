@@ -1,5 +1,7 @@
 package alexander.sergeev.stuff_sharing_app.booking.dto;
 
+import alexander.sergeev.stuff_sharing_app.booking.model.Booking;
+import alexander.sergeev.stuff_sharing_app.booking.model.BookingStatus;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -30,5 +32,4 @@ public class BookingMapper {
                 booking.getId(),
                 booking.getBooker().getId());
     }
-
 }

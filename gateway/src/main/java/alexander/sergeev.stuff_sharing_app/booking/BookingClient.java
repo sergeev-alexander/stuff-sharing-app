@@ -1,5 +1,7 @@
-package alexander.sergeev.booking;
+package alexander.sergeev.stuff_sharing_app.booking;
 
+import alexander.sergeev.stuff_sharing_app.booking.dto.IncomingBookingDto;
+import alexander.sergeev.stuff_sharing_app.client.BaseClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -12,16 +14,15 @@ import java.util.Map;
 
 @Service
 public class BookingClient extends BaseClient {
+
     private static final String API_PREFIX = "/bookings";
 
     @Autowired
-    public BookingClient(@Value("${shareit-server.url}") String serverUrl, RestTemplateBuilder builder) {
-        super(
-                builder
-                        .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX))
-                        .requestFactory(HttpComponentsClientHttpRequestFactory::new)
-                        .build()
-        );
+    public BookingClient(@Value("${stuff_sharing_app_server_url}") String serverUrl, RestTemplateBuilder builder) {
+        super(builder
+                .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX))
+                .requestFactory(HttpComponentsClientHttpRequestFactory::new)
+                .build());
     }
 
     public ResponseEntity<Object> getAllUserBookings(Long userId,
@@ -52,5 +53,4 @@ public class BookingClient extends BaseClient {
         return patch("/" + bookingId + "?approved={approved}", itemOwnerId,
                 Map.of("approved", approved), new IncomingBookingDto());
     }
-
 }

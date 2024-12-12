@@ -1,5 +1,6 @@
 package alexander.sergeev.stuff_sharing_app.request.dto;
 
+import alexander.sergeev.stuff_sharing_app.item.dto.OutgoingItemDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

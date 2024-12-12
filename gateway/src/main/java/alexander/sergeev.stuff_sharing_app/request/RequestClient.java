@@ -1,5 +1,7 @@
-package alexander.sergeev.request;
+package alexander.sergeev.stuff_sharing_app.request;
 
+import alexander.sergeev.stuff_sharing_app.client.BaseClient;
+import alexander.sergeev.stuff_sharing_app.request.dto.IncomingRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -16,13 +18,11 @@ public class RequestClient extends BaseClient {
     private static final String API_PREFIX = "/requests";
 
     @Autowired
-    public RequestClient(@Value("${shareit-server.url}") String serverUrl, RestTemplateBuilder builder) {
-        super(
-                builder
-                        .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX))
-                        .requestFactory(HttpComponentsClientHttpRequestFactory::new)
-                        .build()
-        );
+    public RequestClient(@Value("${stuff_sharing_app_server_url}") String serverUrl, RestTemplateBuilder builder) {
+        super(builder
+                .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX))
+                .requestFactory(HttpComponentsClientHttpRequestFactory::new)
+                .build());
     }
 
     public ResponseEntity<Object> getAllRequesterRequests(Long requesterId, Integer from, Integer size) {
@@ -40,5 +40,4 @@ public class RequestClient extends BaseClient {
     public ResponseEntity<Object> postRequest(Long requesterId, IncomingRequestDto incomingRequestDto) {
         return post("", requesterId, incomingRequestDto);
     }
-
 }

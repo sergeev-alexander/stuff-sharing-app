@@ -1,5 +1,7 @@
-package alexander.sergeev.request;
+package alexander.sergeev.stuff_sharing_app.request;
 
+import alexander.sergeev.stuff_sharing_app.request.dto.IncomingRequestDto;
+import alexander.sergeev.stuff_sharing_app.validation.ValidationMarker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
+import static alexander.sergeev.stuff_sharing_app.http.HttpHeader.header;
+
 @Slf4j
 @Controller
 @RequestMapping("/requests")
@@ -20,7 +24,7 @@ import javax.validation.constraints.PositiveOrZero;
 @RequiredArgsConstructor
 public class RequestController {
 
-    private final alexander.sergeev.request.RequestClient requestClient;
+    private final RequestClient requestClient;
 
     @GetMapping
     public ResponseEntity<Object> getAllRequesterRequests(
@@ -59,5 +63,4 @@ public class RequestController {
         log.info("Id-{} {} {} {}", requesterId, request.getMethod(), request.getRequestURI(), incomingRequestDto);
         return requestClient.postRequest(requesterId, incomingRequestDto);
     }
-
 }

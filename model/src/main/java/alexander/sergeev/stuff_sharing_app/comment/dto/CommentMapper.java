@@ -1,5 +1,6 @@
 package alexander.sergeev.stuff_sharing_app.comment.dto;
 
+import alexander.sergeev.stuff_sharing_app.comment.model.Comment;
 import lombok.experimental.UtilityClass;
 
 import java.time.LocalDateTime;
@@ -23,5 +24,4 @@ public class CommentMapper {
                 null,
                 LocalDateTime.now());
     }
-
 }

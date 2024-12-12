@@ -1,6 +1,11 @@
 package alexander.sergeev.stuff_sharing_app.user.user.dto;
 
+import alexander.sergeev.stuff_sharing_app.user.dto.UserDto;
+import alexander.sergeev.stuff_sharing_app.user.dto.UserMapper;
+import alexander.sergeev.stuff_sharing_app.user.model.User;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class UserMapperTest {
 
@@ -8,6 +13,7 @@ class UserMapperTest {
             1L,
             "Some name",
             "some@email.com");
+
     private final UserDto userDto = new UserDto(
             1L,
             "Some name",
@@ -24,5 +30,4 @@ class UserMapperTest {
         User result = UserMapper.mapDtoToUser(userDto);
         assertEquals(user, result);
     }
-
 }

@@ -1,5 +1,11 @@
 package alexander.sergeev.stuff_sharing_app.user.item.repository;
 
+import alexander.sergeev.stuff_sharing_app.comment.model.Comment;
+import alexander.sergeev.stuff_sharing_app.item.model.Item;
+import alexander.sergeev.stuff_sharing_app.item.repository.CommentRepository;
+import alexander.sergeev.stuff_sharing_app.item.repository.ItemRepository;
+import alexander.sergeev.stuff_sharing_app.user.model.User;
+import alexander.sergeev.stuff_sharing_app.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +31,13 @@ class CommentRepositoryTest {
 
     @Autowired
     private ItemRepository itemRepository;
+
     private User user;
+
     private User author;
+
     private Item item;
+
     private Comment comment;
 
     @BeforeEach
@@ -36,10 +46,12 @@ class CommentRepositoryTest {
                 null,
                 "User name",
                 "user@email.com");
+
         author = new User(
                 null,
                 "Author name",
                 "author@email.com");
+
         item = new Item(
                 null,
                 "Item name",
@@ -47,6 +59,7 @@ class CommentRepositoryTest {
                 true,
                 null,
                 user);
+
         comment = new Comment(
                 null,
                 "Comment text",
@@ -92,5 +105,4 @@ class CommentRepositoryTest {
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
-
 }

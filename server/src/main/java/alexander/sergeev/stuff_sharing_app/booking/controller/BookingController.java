@@ -1,5 +1,9 @@
 package alexander.sergeev.stuff_sharing_app.booking.controller;
 
+import alexander.sergeev.stuff_sharing_app.booking.dto.IncomingBookingDto;
+import alexander.sergeev.stuff_sharing_app.booking.dto.OutgoingBookingDto;
+import alexander.sergeev.stuff_sharing_app.booking.model.BookingState;
+import alexander.sergeev.stuff_sharing_app.booking.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -9,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 
-import static ru.practicum.shareit.http.HttpHeader.header;
+import static alexander.sergeev.stuff_sharing_app.http.HttpHeader.header;
 
 @Slf4j
 @RestController
@@ -18,6 +22,7 @@ import static ru.practicum.shareit.http.HttpHeader.header;
 public class BookingController {
 
     private final Sort sortByStartDesc = Sort.by(Sort.Direction.DESC, "start");
+
     private final BookingService bookingService;
 
     @GetMapping
@@ -69,5 +74,4 @@ public class BookingController {
         log.info("Id-{} {} {}", itemOwnerId, request.getMethod(), request.getRequestURI());
         return bookingService.patchBookingById(itemOwnerId, bookingId, approved);
     }
-
 }

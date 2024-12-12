@@ -1,5 +1,12 @@
 package alexander.sergeev.stuff_sharing_app.user.item.controller;
 
+import alexander.sergeev.stuff_sharing_app.comment.dto.IncomingCommentDto;
+import alexander.sergeev.stuff_sharing_app.comment.dto.OutgoingCommentDto;
+import alexander.sergeev.stuff_sharing_app.exception.ExceptionResolver;
+import alexander.sergeev.stuff_sharing_app.item.controller.ItemController;
+import alexander.sergeev.stuff_sharing_app.item.dto.IncomingItemDto;
+import alexander.sergeev.stuff_sharing_app.item.dto.OutgoingItemDto;
+import alexander.sergeev.stuff_sharing_app.item.service.ItemService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -15,12 +22,12 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static alexander.sergeev.stuff_sharing_app.http.HttpHeader.header;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.practicum.shareit.http.HttpHeader.header;
 
 @WebMvcTest({ItemController.class, ExceptionResolver.class})
 class ItemControllerTest {
@@ -33,6 +40,7 @@ class ItemControllerTest {
 
     @MockBean
     private ItemService itemService;
+
     private final Sort sortByStartDesc = Sort.by(Sort.Direction.DESC, "start");
 
     @Test
@@ -187,5 +195,4 @@ class ItemControllerTest {
                 .andExpect(status().isOk());
         verify(itemService).deleteItemById(1L, 1L);
     }
-
 }

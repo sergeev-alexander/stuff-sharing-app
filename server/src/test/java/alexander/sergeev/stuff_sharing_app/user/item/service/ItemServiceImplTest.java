@@ -1,5 +1,26 @@
 package alexander.sergeev.stuff_sharing_app.user.item.service;
 
+import alexander.sergeev.stuff_sharing_app.booking.dto.BookingMapper;
+import alexander.sergeev.stuff_sharing_app.booking.model.Booking;
+import alexander.sergeev.stuff_sharing_app.booking.model.BookingStatus;
+import alexander.sergeev.stuff_sharing_app.booking.repository.BookingRepository;
+import alexander.sergeev.stuff_sharing_app.comment.dto.CommentMapper;
+import alexander.sergeev.stuff_sharing_app.comment.dto.IncomingCommentDto;
+import alexander.sergeev.stuff_sharing_app.comment.dto.OutgoingCommentDto;
+import alexander.sergeev.stuff_sharing_app.comment.model.Comment;
+import alexander.sergeev.stuff_sharing_app.exception.NotAvailableItemException;
+import alexander.sergeev.stuff_sharing_app.exception.NotFoundException;
+import alexander.sergeev.stuff_sharing_app.item.dto.IncomingItemDto;
+import alexander.sergeev.stuff_sharing_app.item.dto.ItemMapper;
+import alexander.sergeev.stuff_sharing_app.item.dto.OutgoingItemDto;
+import alexander.sergeev.stuff_sharing_app.item.model.Item;
+import alexander.sergeev.stuff_sharing_app.item.repository.CommentRepository;
+import alexander.sergeev.stuff_sharing_app.item.repository.ItemRepository;
+import alexander.sergeev.stuff_sharing_app.item.service.ItemServiceImpl;
+import alexander.sergeev.stuff_sharing_app.request.model.Request;
+import alexander.sergeev.stuff_sharing_app.request.repository.RequestRepository;
+import alexander.sergeev.stuff_sharing_app.user.model.User;
+import alexander.sergeev.stuff_sharing_app.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,39 +62,54 @@ class ItemServiceImplTest {
 
     @Mock
     private RequestRepository requestRepository;
+
     private final Pageable pageable = PageRequest.of(0, 20);
+
     private User owner;
+
     private User author;
+
     private Request request;
+
     private Item item;
+
     private Comment comment;
+
     private Booking lastBooking;
+
     private Booking nextBooking;
 
     @BeforeEach
     void setUp() {
+
         LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+
         owner = new User(
                 1L,
                 "Owner name",
                 "owner@email.com");
+
         User requester = new User(
                 2L,
                 "Requester name",
                 "requester@email.com");
+
         author = new User(
                 3L,
                 "Author name",
                 "author@email.com");
+
         User booker = new User(
                 4L,
                 "Booker name",
                 "booker@email.com");
+
         request = new Request(
                 1L,
                 "Request description",
                 now,
                 requester);
+
         item = new Item(
                 1L,
                 "Item name",
@@ -81,12 +117,14 @@ class ItemServiceImplTest {
                 true,
                 request,
                 owner);
+
         comment = new Comment(
                 1L,
                 "Comment text",
                 item,
                 author,
                 now);
+
         lastBooking = new Booking(
                 1L,
                 now.minusDays(2L),
@@ -94,6 +132,7 @@ class ItemServiceImplTest {
                 item,
                 booker,
                 BookingStatus.APPROVED);
+
         nextBooking = new Booking(
                 2L,
                 now.plusDays(1L),

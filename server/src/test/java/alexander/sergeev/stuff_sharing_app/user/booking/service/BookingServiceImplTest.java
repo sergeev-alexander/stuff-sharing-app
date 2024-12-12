@@ -1,5 +1,19 @@
 package alexander.sergeev.stuff_sharing_app.user.booking.service;
 
+import alexander.sergeev.stuff_sharing_app.booking.dto.BookingMapper;
+import alexander.sergeev.stuff_sharing_app.booking.dto.IncomingBookingDto;
+import alexander.sergeev.stuff_sharing_app.booking.dto.OutgoingBookingDto;
+import alexander.sergeev.stuff_sharing_app.booking.model.Booking;
+import alexander.sergeev.stuff_sharing_app.booking.model.BookingState;
+import alexander.sergeev.stuff_sharing_app.booking.model.BookingStatus;
+import alexander.sergeev.stuff_sharing_app.booking.repository.BookingRepository;
+import alexander.sergeev.stuff_sharing_app.booking.service.BookingServiceImpl;
+import alexander.sergeev.stuff_sharing_app.exception.NotAvailableItemException;
+import alexander.sergeev.stuff_sharing_app.exception.NotFoundException;
+import alexander.sergeev.stuff_sharing_app.item.model.Item;
+import alexander.sergeev.stuff_sharing_app.item.repository.ItemRepository;
+import alexander.sergeev.stuff_sharing_app.user.model.User;
+import alexander.sergeev.stuff_sharing_app.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,8 +30,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -35,12 +48,19 @@ class BookingServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
+
     private User owner;
+
     private User booker;
+
     private Item item;
+
     private Booking booking;
+
     private OutgoingBookingDto outgoingBookingDto;
+
     private final LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+
     private final Pageable pageable = PageRequest.of(0, 20);
 
     @BeforeEach
@@ -49,10 +69,12 @@ class BookingServiceImplTest {
                 1L,
                 "Owner name",
                 "owner@email.com");
+
         booker = new User(
                 2L,
                 "Booker name",
                 "booker@email.com");
+
         item = new Item(
                 1L,
                 "Item name",
@@ -60,6 +82,7 @@ class BookingServiceImplTest {
                 true,
                 null,
                 owner);
+
         outgoingBookingDto = new OutgoingBookingDto(
                 1L,
                 now.minusDays(1),
@@ -67,6 +90,7 @@ class BookingServiceImplTest {
                 booker,
                 item,
                 BookingStatus.APPROVED);
+
         booking = new Booking(
                 1L,
                 now.minusDays(1),
@@ -263,5 +287,4 @@ class BookingServiceImplTest {
         assertEquals("Booking item don't belong to user with id 2",
                 notFoundException.getMessage());
     }
-
 }

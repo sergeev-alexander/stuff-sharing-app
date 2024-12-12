@@ -1,5 +1,9 @@
 package alexander.sergeev.stuff_sharing_app.user.service;
 
+import alexander.sergeev.stuff_sharing_app.user.dto.UserDto;
+import alexander.sergeev.stuff_sharing_app.user.dto.UserMapper;
+import alexander.sergeev.stuff_sharing_app.user.model.User;
+import alexander.sergeev.stuff_sharing_app.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -51,5 +55,4 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(userId);
         return userDto;
     }
-
 }

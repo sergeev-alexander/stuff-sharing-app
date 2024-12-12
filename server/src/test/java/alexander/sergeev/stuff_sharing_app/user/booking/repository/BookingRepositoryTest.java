@@ -1,5 +1,14 @@
 package alexander.sergeev.stuff_sharing_app.user.booking.repository;
 
+import alexander.sergeev.stuff_sharing_app.booking.dto.BookingMapper;
+import alexander.sergeev.stuff_sharing_app.booking.dto.LastNextBookingDto;
+import alexander.sergeev.stuff_sharing_app.booking.model.Booking;
+import alexander.sergeev.stuff_sharing_app.booking.model.BookingStatus;
+import alexander.sergeev.stuff_sharing_app.booking.repository.BookingRepository;
+import alexander.sergeev.stuff_sharing_app.item.model.Item;
+import alexander.sergeev.stuff_sharing_app.item.repository.ItemRepository;
+import alexander.sergeev.stuff_sharing_app.user.model.User;
+import alexander.sergeev.stuff_sharing_app.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +39,15 @@ class BookingRepositoryTest {
 
     @Autowired
     BookingRepository bookingRepository;
+
     private final Pageable pageable = PageRequest.of(0, 20, Sort.by(Sort.Direction.DESC, "start"));
+
     private Booking pastBooking;
+
     private Booking currentBooking;
+
     private Booking futureBooking;
+
     private final LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 
     @BeforeEach
@@ -340,5 +354,4 @@ class BookingRepositoryTest {
         bookingRepository.save(pastBooking);
         bookingRepository.save(futureBooking);
     }
-
 }

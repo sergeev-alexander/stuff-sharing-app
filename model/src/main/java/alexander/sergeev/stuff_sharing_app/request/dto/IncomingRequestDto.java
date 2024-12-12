@@ -1,5 +1,6 @@
 package alexander.sergeev.stuff_sharing_app.request.dto;
 
+import alexander.sergeev.stuff_sharing_app.validation.ValidationMarker;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,4 +22,5 @@ public class IncomingRequestDto {
     @Size(groups = ValidationMarker.OnCreate.class, max = 128,
             message = "Creating request description field is bigger than 128 characters!")
     private String description;
+
 }

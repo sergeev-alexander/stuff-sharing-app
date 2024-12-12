@@ -1,5 +1,6 @@
 package alexander.sergeev.stuff_sharing_app.item.dto;
 
+import alexander.sergeev.stuff_sharing_app.item.model.Item;
 import lombok.experimental.UtilityClass;
 
 import java.util.List;
@@ -28,5 +29,4 @@ public class ItemMapper {
                 null,
                 null);
     }
-
 }

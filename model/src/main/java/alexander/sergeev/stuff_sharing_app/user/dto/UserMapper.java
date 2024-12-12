@@ -1,5 +1,6 @@
 package alexander.sergeev.stuff_sharing_app.user.dto;
 
+import alexander.sergeev.stuff_sharing_app.user.model.User;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -18,5 +19,4 @@ public class UserMapper {
                 userDto.getName(),
                 userDto.getEmail());
     }
-
 }

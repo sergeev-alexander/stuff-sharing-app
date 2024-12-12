@@ -1,5 +1,8 @@
 package alexander.sergeev.stuff_sharing_app.booking.service;
 
+import alexander.sergeev.stuff_sharing_app.booking.dto.IncomingBookingDto;
+import alexander.sergeev.stuff_sharing_app.booking.dto.OutgoingBookingDto;
+import alexander.sergeev.stuff_sharing_app.booking.model.BookingState;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

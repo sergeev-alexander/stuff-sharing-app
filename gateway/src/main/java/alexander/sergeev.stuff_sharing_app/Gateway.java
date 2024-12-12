@@ -1,4 +1,4 @@
-package alexander.sergeev;
+package alexander.sergeev.stuff_sharing_app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,5 +9,4 @@ public class Gateway {
     public static void main(String[] args) {
         SpringApplication.run(Gateway.class, args);
     }
-
 }

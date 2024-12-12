@@ -1,5 +1,8 @@
 package alexander.sergeev.stuff_sharing_app.user.user.repository;
 
+import alexander.sergeev.stuff_sharing_app.exception.NotFoundException;
+import alexander.sergeev.stuff_sharing_app.user.model.User;
+import alexander.sergeev.stuff_sharing_app.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,7 @@ class UserRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;
+
     private User user;
 
     @BeforeEach
@@ -66,5 +70,4 @@ class UserRepositoryTest {
         User result = userRepository.getUserById(1L);
         assertEquals(user, result);
     }
-
 }

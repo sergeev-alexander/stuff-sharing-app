@@ -1,5 +1,11 @@
 package alexander.sergeev.stuff_sharing_app.booking;
 
+import alexander.sergeev.stuff_sharing_app.booking.dto.IncomingBookingDto;
+import alexander.sergeev.stuff_sharing_app.booking.dto.OutgoingBookingDto;
+import alexander.sergeev.stuff_sharing_app.booking.model.BookingStatus;
+import alexander.sergeev.stuff_sharing_app.exception.ExceptionResolver;
+import alexander.sergeev.stuff_sharing_app.item.model.Item;
+import alexander.sergeev.stuff_sharing_app.user.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -19,9 +25,9 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static alexander.sergeev.stuff_sharing_app.http.HttpHeader.header;
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -79,8 +85,8 @@ class BookingControllerTest {
         mockMvc.perform(get("/bookings?state=ALL&from=0&size=20")
                         .header("WRONG-HEADER", "WRONG-VALUE"))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(
-                        result.getResolvedException() instanceof MissingRequestHeaderException))
+                .andExpect(result ->
+                        assertInstanceOf(MissingRequestHeaderException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals("Required request header 'X-Sharer-User-Id' " +
                                 "for method parameter type Long is not present",
                         result.getResolvedException().getMessage()))
@@ -96,8 +102,8 @@ class BookingControllerTest {
         mockMvc.perform(get("/bookings?from=-1&size=0")
                         .header(header, 2))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException()
-                        instanceof ConstraintViolationException))
+                .andExpect(result ->
+                        assertInstanceOf(ConstraintViolationException.class, result.getResolvedException()))
                 .andExpect(result -> assertTrue(result
                         .getResolvedException().getMessage()
                         .contains("getAllUserBookings.size: must be greater than or equal to 1")))
@@ -114,8 +120,8 @@ class BookingControllerTest {
         mockMvc.perform(get("/bookings?state=WRONG-STATE")
                         .header(header, 2))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(
-                        result.getResolvedException() instanceof ConstraintViolationException))
+                .andExpect(result ->
+                        assertInstanceOf(ConstraintViolationException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals("getAllUserBookings.bookingStateString.state: " +
                                 "Unknown state: UNSUPPORTED_STATUS",
                         result.getResolvedException().getMessage()))
@@ -143,7 +149,8 @@ class BookingControllerTest {
         mockMvc.perform(get("/bookings/owner?state=ALL&from=0&size=20", -1)
                         .header(header, -1))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException() instanceof ConstraintViolationException))
+                .andExpect(result ->
+                        assertInstanceOf(ConstraintViolationException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals("getAllOwnerItemBookings.ownerId: must be greater than 0",
                         result.getResolvedException().getMessage()))
                 .andExpect(content().string("{\"error\":\"must be greater than 0\"}"));
@@ -169,8 +176,8 @@ class BookingControllerTest {
         mockMvc.perform(get("/bookings/{id}", -1)
                         .header(header, 1))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException()
-                        instanceof ConstraintViolationException))
+                .andExpect(result ->
+                        assertInstanceOf(ConstraintViolationException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals("getBookingById.bookingId: must be greater than 0",
                         result.getResolvedException().getMessage()))
                 .andExpect(content().string("{\"error\":\"must be greater than 0\"}"));
@@ -212,8 +219,8 @@ class BookingControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(incomingBookingDto)))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(
-                        result.getResolvedException() instanceof MethodArgumentNotValidException))
+                .andExpect(result ->
+                        assertInstanceOf(MethodArgumentNotValidException.class, result.getResolvedException()))
                 .andExpect(result -> assertTrue(result.getResolvedException().getMessage()
                         .contains("Creating booking start is in past!")))
                 .andExpect(content().string(
@@ -235,8 +242,8 @@ class BookingControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(incomingBookingDto)))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(
-                        result.getResolvedException() instanceof MethodArgumentNotValidException))
+                .andExpect(result ->
+                        assertInstanceOf(MethodArgumentNotValidException.class, result.getResolvedException()))
                 .andExpect(result -> assertTrue(result.getResolvedException().getMessage()
                         .contains("Creating booking end is in past!")))
                 .andExpect(content().string(
@@ -258,8 +265,8 @@ class BookingControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(incomingBookingDto)))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(
-                        result.getResolvedException() instanceof MethodArgumentNotValidException))
+                .andExpect(result ->
+                        assertInstanceOf(MethodArgumentNotValidException.class, result.getResolvedException()))
                 .andExpect(result -> assertTrue(result.getResolvedException().getMessage()
                         .contains("Creating booking start is before end!")))
                 .andExpect(content().string("{\"start\":\"Creating booking start is before end!\"}"));
@@ -286,12 +293,11 @@ class BookingControllerTest {
                         .header(header, 1)
                         .param("approved", "true"))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> assertTrue(result.getResolvedException()
-                        instanceof ConstraintViolationException))
+                .andExpect(result ->
+                        assertInstanceOf(ConstraintViolationException.class, result.getResolvedException()))
                 .andExpect(result -> assertEquals("patchBooking.bookingId: must be greater than 0",
                         result.getResolvedException().getMessage()))
                 .andExpect(content().string("{\"error\":\"must be greater than 0\"}"));
         verifyNoInteractions(bookingClient);
     }
-
 }

@@ -1,5 +1,7 @@
 package alexander.sergeev.stuff_sharing_app.user.repository;
 
+import alexander.sergeev.stuff_sharing_app.exception.NotFoundException;
+import alexander.sergeev.stuff_sharing_app.user.model.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -18,5 +20,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
         return findById(userId)
                 .orElseThrow(() -> new NotFoundException("There's no user with id " + userId));
     }
-
 }

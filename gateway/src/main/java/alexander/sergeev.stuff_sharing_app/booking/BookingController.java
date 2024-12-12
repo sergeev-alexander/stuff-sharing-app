@@ -1,5 +1,8 @@
-package alexander.sergeev.booking;
+package alexander.sergeev.stuff_sharing_app.booking;
 
+import alexander.sergeev.stuff_sharing_app.booking.dto.IncomingBookingDto;
+import alexander.sergeev.stuff_sharing_app.validation.BookingStateValidation;
+import alexander.sergeev.stuff_sharing_app.validation.ValidationMarker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +16,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
+import static alexander.sergeev.stuff_sharing_app.http.HttpHeader.header;
 
 @Controller
 @RequestMapping(path = "/bookings")
@@ -21,7 +25,7 @@ import javax.validation.constraints.PositiveOrZero;
 @Validated
 public class BookingController {
 
-    private final alexander.sergeev.booking.BookingClient bookingClient;
+    private final BookingClient bookingClient;
 
     @GetMapping
     public ResponseEntity<Object> getAllUserBookings(
@@ -70,5 +74,4 @@ public class BookingController {
         log.info("Id-{} {} {}", itemOwnerId, request.getMethod(), request.getRequestURI());
         return bookingClient.patchBooking(itemOwnerId, bookingId, approved);
     }
-
 }

@@ -64,6 +64,7 @@
             <artifactId>spring-data-commons</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>alexander.sergeev</groupId>
             <artifactId>server</artifactId>

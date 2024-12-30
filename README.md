@@ -1,1 +1,1 @@
-Educational project for sharing things among users
+Educational project for sharing various things([items]() among users
